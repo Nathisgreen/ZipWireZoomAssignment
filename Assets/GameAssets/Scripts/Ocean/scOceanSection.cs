@@ -12,16 +12,22 @@ public class scOceanSection : MonoBehaviour {
 
     private List<Vector3> vertices = new List<Vector3>();
     private List<int> triangles = new List<int>();
-    List<Vector2> uvList = new List<Vector2>();
+    private List<Vector2> uv = new List<Vector2>();
+    private List<Color> colors = new List<Color>();
+
+    private List<Color> allColors = new List<Color>();
 
     //cache a vector to avoid constantly allocating new memory
     private Vector3 workVector = new Vector3();
 
     private Mesh mesh;
 
-	// Use this for initialization
 	void Start () {
         mesh = this.gameObject.AddComponent<MeshFilter>().mesh;
+
+        allColors.Add(new Color(22 / 255f, 171 / 255f, 200 / 255f));
+        allColors.Add(new Color(22 / 255f, 189 / 255f, 224 / 255f));
+        allColors.Add(new Color(15 / 255f, 129 / 255f, 149 / 255f));
 
         createPoints();
         constructMesh();
@@ -31,17 +37,21 @@ public class scOceanSection : MonoBehaviour {
         for (int w = 0; w < width; w++){
             for (int d = 0; d < depth; d++){
                 GameObject oceanPoint = (GameObject)GameObject.Instantiate(Resources.Load("OceanPoint"));
-                
+
+                oceanPoint.transform.parent = this.transform;
+
                 workVector.x = transform.position.x + (w * UnitSize);
-                workVector.y = transform.position.y + Random.Range(0,1);
+                workVector.y = transform.position.y + Random.Range(0,50)/100f;
                 workVector.z = transform.position.z + (d * UnitSize);
 
                 oceanPoint.transform.position = workVector;
-                
-                oceanPoint.transform.parent = this.transform;
 
-                vertices.Add(oceanPoint.transform.position);
-                //uvList.Add(new Vector2(1,1));
+                vertices.Add(oceanPoint.transform.position - oceanPoint.transform.parent.position);
+                uv.Add(new Vector2(0,0));
+                colors.Add(allColors[Random.Range(0, allColors.Count)]);
+
+ 
+
             }
         }
     }
@@ -49,6 +59,7 @@ public class scOceanSection : MonoBehaviour {
     private void constructMesh(){
         for (int w = 0; w < width-1; w++){
             for (int d = 0; d< depth-1; d++){
+
                 triangles.Add((w * width) + d);
                 triangles.Add((w * width) + d + 1);
                 triangles.Add((w+1) * width + d);
@@ -56,13 +67,14 @@ public class scOceanSection : MonoBehaviour {
                 triangles.Add(w * width + (d + 1));
                 triangles.Add((w + 1) * width + (d+1));
                 triangles.Add((w + 1) * width + d);
-
             }
         }
 
         mesh.Clear();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
+        mesh.uv = uv.ToArray();
+        mesh.colors = colors.ToArray();
         mesh.Optimize();
         mesh.RecalculateNormals();
     }
