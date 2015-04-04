@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class scOceanController : MonoBehaviour {
 
@@ -14,9 +15,12 @@ public class scOceanController : MonoBehaviour {
     private GameObject lastCreatedOceanPiece;
     private Vector3 lastCreatedOceanPieceStartPosition;
     private float spawnDistance = 0;
+
+    private scLevelController levelController;
     
 	// Use this for initialization
 	void Start () {
+        levelController = GameObject.FindGameObjectWithTag("LevelController").GetComponent<scLevelController>();
         createInitalOcean();
 	}
 	
@@ -40,7 +44,7 @@ public class scOceanController : MonoBehaviour {
     private void checkSpawnNextPiece(){
         if (lastCreatedOceanPiece != null){
             if (Vector3.Distance(lastCreatedOceanPieceStartPosition,lastCreatedOceanPiece.transform.position) > spawnDistance){
-                createOceanPiece(lastCreatedOceanPieceStartPosition);
+                createOceanPiece(lastCreatedOceanPieceStartPosition - transform.position, levelController.getWorldSpeed());
             }
         }
     }
@@ -52,14 +56,23 @@ public class scOceanController : MonoBehaviour {
             workVector.y = OceanYPosition;
             workVector.z = i * (OceanPieceLength * UnitSize);
 
-            createOceanPiece(workVector);
+            createOceanPiece(workVector, 0);
         }
     }
 
-    private void createOceanPiece(Vector3 position){
+    private void createOceanPiece(Vector3 position, float worldMoveSpeed){
         GameObject oceanPiece = (GameObject)GameObject.Instantiate(Resources.Load("OceanSection"));
 
         oceanPiece.transform.position = workVector;
+
+        oceanPiece.GetComponent<scOceanSection>().initSection();
+
+        if (lastCreatedOceanPiece != null){
+            oceanPiece.GetComponent<scOceanSection>().buildMeshSection(
+                lastCreatedOceanPiece.GetComponent<scOceanSection>().getVerticies(), lastCreatedOceanPiece, worldMoveSpeed);
+        }else{
+            oceanPiece.GetComponent<scOceanSection>().buildMeshSection(new List<Vector3>(), lastCreatedOceanPiece, worldMoveSpeed);
+        }
 
         lastCreatedOceanPiece = oceanPiece;
         lastCreatedOceanPieceStartPosition = oceanPiece.transform.position;
