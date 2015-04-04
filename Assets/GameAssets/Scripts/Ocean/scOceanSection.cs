@@ -55,16 +55,8 @@ public class scOceanSection : MonoBehaviour {
         if (previousSectionVerticies.Count > 0){
             for (int i = (depth*depth)-width; i < (depth * depth) ; i++){
 
-                //workVector3.x = (previousSectionVerticies[i].x + previousSection.transform.position.x) - transform.position.x;
-                //workVector3.y = (previousSectionVerticies[i].y + previousSection.transform.position.y) - transform.position.y;
-                //workVector3.z = (previousSectionVerticies[i].z + previousSection.transform.position.z) - transform.position.z;
-
                 workVector3 = (previousSectionVerticies[i] + previousSection.transform.position) - transform.position - frameShift;
 
-                //workVector3 = (previousSectionVerticies[i] + previousSection.transform.position);
-                //workVector3.x += (width * unitSize);
-                //workVector3.y = previousSectionVerticies[i].y;
-                //workVector3.z -= (depth * unitSize) * 2;
                 GameObject oceanPoint = (GameObject)GameObject.Instantiate(Resources.Load("OceanPoint"));
                 oceanPoint.transform.position = workVector3;
 
@@ -109,7 +101,7 @@ public class scOceanSection : MonoBehaviour {
         constructTriangles();
 
         if (connectToPrevious){
-            constructSeamTriangles();
+            constructSeamTrianglesToPreviousOceanSection();
         }
 
         mesh.Clear();
@@ -135,7 +127,7 @@ public class scOceanSection : MonoBehaviour {
         }
     }
 
-    private void constructSeamTriangles() {
+    private void constructSeamTrianglesToPreviousOceanSection() {
         int d = depth ;
 
         for (int w = 0; w < width - 1; w++) {

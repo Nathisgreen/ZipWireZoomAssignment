@@ -2,14 +2,13 @@
 using System.Collections;
 
 public class scLevelController : MonoBehaviour {
-    private float worldSpeed = 10f;
+    private float worldSpeed = 20f;
 
     private GameObject lastChunkEndPiece;
 
     private Object[] allChunks;
 
     private float spawnZ = 30;
-
 
 	// Use this for initialization
 	void Start () {
@@ -24,8 +23,11 @@ public class scLevelController : MonoBehaviour {
                 loadNextChunk();
             }
         }
-	
 	}
+
+    public float getWorldSpeed() {
+        return worldSpeed;
+    }
 
     private void loadNextChunk(){
         int randomChunk = Random.Range(0, allChunks.Length);
@@ -39,9 +41,4 @@ public class scLevelController : MonoBehaviour {
             }
         }
     }
-
-    public float getWorldSpeed(){
-        return worldSpeed;
-    }
-
 }
