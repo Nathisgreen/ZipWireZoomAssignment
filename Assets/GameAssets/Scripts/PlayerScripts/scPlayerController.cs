@@ -22,7 +22,6 @@ public class scPlayerController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.RightArrow) && transform.position.x >= -HorizontalInputDeadZone) {
             rigidbody.AddForce(rigidbody.transform.right * HorizontalMoveForce, ForceMode.Force);
-
         }
 
         if (rigidbody.velocity.x > MaxHorizontalVelocity) {
