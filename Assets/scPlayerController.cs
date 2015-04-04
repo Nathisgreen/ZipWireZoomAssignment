@@ -12,7 +12,7 @@ public class scPlayerController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
         if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x <= 1){
             rigidbody.AddForce(-rigidbody.transform.right * moveForce, ForceMode.Force);
@@ -20,6 +20,7 @@ public class scPlayerController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.RightArrow) && transform.position.x >=-1) {
             rigidbody.AddForce(rigidbody.transform.right * moveForce, ForceMode.Force);
+
         }
 
         if (rigidbody.velocity.x > maxHozVelocity) {
