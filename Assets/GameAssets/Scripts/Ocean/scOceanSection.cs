@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public class scOceanSection : MonoBehaviour {
 
-    //private ArrayList sectionPoints = new ArrayList();
-
-    private const float UnitSize = 1.5f;
-    private int width = 10;
-    private int depth = 10;
+    private float unitSize;
+    private int width;
+    private int depth;
 
     private List<Vector3> vertices = new List<Vector3>();
     private List<int> triangles = new List<int>();
@@ -18,11 +16,20 @@ public class scOceanSection : MonoBehaviour {
     private List<Color> allColors = new List<Color>();
 
     //cache a vector to avoid constantly allocating new memory
-    private Vector3 workVector = new Vector3();
+    private Vector3 workVector3 = new Vector3();
+    private Vector2 workVector2 = new Vector2();
 
     private Mesh mesh;
 
 	void Start () {
+
+        scOceanController oceanController = GameObject.FindGameObjectWithTag("LevelController").GetComponent<scOceanController>();
+
+        unitSize = oceanController.getUnitSize();
+        width = oceanController.getPieceWidth();
+        depth = oceanController.getPieceLength();
+
+
         mesh = this.gameObject.AddComponent<MeshFilter>().mesh;
 
         allColors.Add(new Color(22 / 255f, 171 / 255f, 200 / 255f));
@@ -40,18 +47,15 @@ public class scOceanSection : MonoBehaviour {
 
                 oceanPoint.transform.parent = this.transform;
 
-                workVector.x = transform.position.x + (w * UnitSize);
-                workVector.y = transform.position.y + Random.Range(0,50)/100f;
-                workVector.z = transform.position.z + (d * UnitSize);
+                workVector3.x = transform.position.x + (w * unitSize);
+                workVector3.y = transform.position.y + Random.Range(0,50)/100f;
+                workVector3.z = transform.position.z + (d * unitSize);
 
-                oceanPoint.transform.position = workVector;
+                oceanPoint.transform.position = workVector3;
 
                 vertices.Add(oceanPoint.transform.position - oceanPoint.transform.parent.position);
-                uv.Add(new Vector2(0,0));
+                uv.Add(workVector2);
                 colors.Add(allColors[Random.Range(0, allColors.Count)]);
-
- 
-
             }
         }
     }
@@ -67,6 +71,7 @@ public class scOceanSection : MonoBehaviour {
                 triangles.Add(w * width + (d + 1));
                 triangles.Add((w + 1) * width + (d+1));
                 triangles.Add((w + 1) * width + d);
+
             }
         }
 
