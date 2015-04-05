@@ -18,6 +18,7 @@ public class scCollectablePlacementEditor : MonoBehaviour {
 	
 	void Update () {
 
+        //only apply logic when this object has moved in the editor
         if (transform.position != lastPos){
 
             anchorPoint.z = transform.position.z;
