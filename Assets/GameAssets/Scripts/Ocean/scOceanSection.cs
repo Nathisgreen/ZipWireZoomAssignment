@@ -109,9 +109,9 @@ public class scOceanSection : MonoBehaviour {
                 triangles.Add((depthIndex + 1) * width + widthIndex);
                 triangles.Add((depthIndex * width) + widthIndex + 1);
 
-                triangles.Add(depthIndex * width + (widthIndex + 1));
+                triangles.Add(depthIndex * width + widthIndex + 1);
                 triangles.Add((depthIndex + 1) * width + widthIndex);
-                triangles.Add((depthIndex + 1) * width + (widthIndex + 1));
+                triangles.Add((depthIndex + 1) * width + widthIndex + 1);
             }
         }
     }

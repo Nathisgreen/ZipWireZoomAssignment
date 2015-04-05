@@ -33,6 +33,6 @@ public class scPlayerController : MonoBehaviour {
 
     private bool checkRightInput() {
         return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) ||
-            (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2); ;
+            (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2);
     }
 }
