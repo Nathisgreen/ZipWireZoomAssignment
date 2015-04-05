@@ -41,7 +41,7 @@ public class scOceanSection : MonoBehaviour {
         allColors.Add(new Color(22 / 255f, 189 / 255f, 224 / 255f));
         allColors.Add(new Color(15 / 255f, 129 / 255f, 149 / 255f));
 
-        createPoints();
+        createMeshVerticies();
     }
 
     public void buildMeshSection(List<Vector3> previousSectionVerticies, GameObject previousSection, float worldMoveSpeed) {
@@ -57,13 +57,11 @@ public class scOceanSection : MonoBehaviour {
             for (int i = numberOfVerticies-width; i < numberOfVerticies; i++){
 
                 workVector3 = (previousSectionVerticies[i] + previousSection.transform.position) - transform.position - frameShift;
-
                 vertices.Add(workVector3);
 
                 colors.Add(allColors[Random.Range(0, allColors.Count)]);
                 uv.Add(workVector2);
             }
-
             constructMesh(true);
         }else{
             constructMesh(false);
@@ -74,7 +72,7 @@ public class scOceanSection : MonoBehaviour {
         return vertices;
     }
 
-    private void createPoints(){
+    private void createMeshVerticies(){
         for (int depthIndex = 0; depthIndex < depth; depthIndex++) {
             for (int widthIndex = 0; widthIndex < width; widthIndex++) {
 

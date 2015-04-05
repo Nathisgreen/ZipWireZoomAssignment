@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Text;
 public class scLevelController : MonoBehaviour {
     private float worldSpeed = 15f;
 
@@ -10,10 +10,14 @@ public class scLevelController : MonoBehaviour {
 
     private float spawnZ = 30;
 
+    private int score = 0;
+    private string scoreString = "Score: 0";
+
 	// Use this for initialization
 	void Start () {
         allChunks = Resources.LoadAll("LevelChunks", typeof(GameObject));
         loadNextChunk();
+        addToScore(10);
 	}
 	
 	// Update is called once per frame
@@ -27,6 +31,15 @@ public class scLevelController : MonoBehaviour {
 
     public float getWorldSpeed() {
         return worldSpeed;
+    }
+
+    public void addToScore(int scoreToAdd){
+        score += scoreToAdd;
+        scoreString = "Score " +score.ToString();
+    }
+
+    public string getScoreText(){
+        return scoreString;
     }
 
     private void loadNextChunk(){
