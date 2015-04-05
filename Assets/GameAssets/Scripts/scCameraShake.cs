@@ -16,13 +16,13 @@ public class scCameraShake : MonoBehaviour {
         cameraShakeFreePos = transform.position;
     }
 
-    public void cameraShake(float _magnitude, float _frequency, float _length) {
+    public void cameraShake(float magnitude, float frequency, float length) {
         if (isCameraShake) {
                 return;
         }
-        shakeMagnitude = _magnitude;
-        shakeFreq = _frequency;
-        shakeLength = _length;
+        shakeMagnitude = magnitude;
+        shakeFreq = frequency;
+        shakeLength = length;
         shakeStartTime = Time.time;
         isCameraShake = true;
     }

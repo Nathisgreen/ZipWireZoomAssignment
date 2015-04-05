@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Text;
 public class scLevelController : MonoBehaviour {
-    private float worldSpeed = 15f;
+
+    private const float BaseWorldSpeed = 15f;
+
+    private float worldSpeed;
 
     private GameObject lastChunkEndPiece;
 
@@ -13,7 +16,10 @@ public class scLevelController : MonoBehaviour {
     private int score = 0;
     private string scoreString = "Score: 0";
 
+    private bool isPenaltySlowDown = false;
+
 	void Start () {
+        worldSpeed = BaseWorldSpeed;
         allChunks = Resources.LoadAll("LevelChunks", typeof(GameObject));
         loadNextChunk();
         addToScore(10);
@@ -25,6 +31,16 @@ public class scLevelController : MonoBehaviour {
                 loadNextChunk();
             }
         }
+
+        if (isPenaltySlowDown){
+            if (worldSpeed < BaseWorldSpeed){
+                worldSpeed += 10 * Time.deltaTime;
+            }else{
+                worldSpeed = BaseWorldSpeed;
+                isPenaltySlowDown = false;
+            }
+        }
+           
 	}
 
     public float getWorldSpeed() {
@@ -38,6 +54,11 @@ public class scLevelController : MonoBehaviour {
 
     public string getScoreText(){
         return scoreString;
+    }
+
+    public void setPenaltyWorldSpeed(){
+        worldSpeed = 6;
+        isPenaltySlowDown = true;
     }
 
     private void loadNextChunk(){

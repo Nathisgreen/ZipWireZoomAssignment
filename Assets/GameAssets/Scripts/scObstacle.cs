@@ -18,15 +18,16 @@ public class scObstacle : MonoBehaviour {
             if (!isHit){
 
                 cameraShake.cameraShake(2, 1, 1);
+                levelController.setPenaltyWorldSpeed();
 
-                float multiplier = 1;
+                /*float multiplier = 1;
 
                 if (Random.Range(0,10) >= 5 ){
                     multiplier = -1;
                 }
 
                 Vector3 force = new Vector3(multiplier* 5,0,0);
-                other.gameObject.rigidbody.AddForce(force, ForceMode.Impulse);
+                other.gameObject.rigidbody.AddForce(force, ForceMode.Impulse);*/
                 isHit = true;
             }
         }
