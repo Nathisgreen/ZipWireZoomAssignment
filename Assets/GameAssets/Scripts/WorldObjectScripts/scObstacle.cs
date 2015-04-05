@@ -5,7 +5,6 @@ public class scObstacle : MonoBehaviour {
 
     private scLevelController levelController;
     private bool isHit = false;
-
     private scCameraShake cameraShake;
 
 	void Start () {
@@ -13,12 +12,11 @@ public class scObstacle : MonoBehaviour {
         cameraShake = Camera.main.GetComponent<scCameraShake>();
 	}
 
-    void OnTriggerEnter( Collider other){
+    void OnTriggerEnter(Collider other){
         if (other.collider.tag == "Player"){
             if (!isHit){
                 cameraShake.cameraShake(2, 1, 1);
                 levelController.setPenaltyWorldSpeed();
-
                 isHit = true;
             }
         }

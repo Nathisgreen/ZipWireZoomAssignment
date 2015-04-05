@@ -30,33 +30,9 @@ public class scLevelController : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (lastChunkEndPiece != null){
-            if (lastChunkEndPiece.transform.position.z < 30){
-                loadNextChunk();
-            }
-        }
-
-        if (isPenaltySlowDown){
-            if (worldSpeed < BaseWorldSpeed){
-                worldSpeed += 10 * Time.deltaTime;
-            }else{
-                worldSpeed = BaseWorldSpeed;
-                isPenaltySlowDown = false;
-            }
-        }
-
-        if (hasSpeedPowerUp){
-            if (speedPowerUpTime < speedPowerUpLength){
-                speedPowerUpTime += 1 * Time.deltaTime;
-            }else{
-                if (worldSpeed > BaseWorldSpeed){
-                    worldSpeed -= 10 * Time.deltaTime;
-                }else{
-                    hasSpeedPowerUp = false;
-                    speedPowerUpTime = 0;
-                }
-            }
-        }
+        chunkSpawningControl();
+        penaltySlowDownControl();
+        speedPowerUpControl();
 	}
 
     public float getWorldSpeed() {
@@ -65,7 +41,6 @@ public class scLevelController : MonoBehaviour {
 
     public void addToScore(int scoreToAdd){
        score += scoreToAdd;
-
        scoreString = "Score: " + score;
     }
 
@@ -95,6 +70,43 @@ public class scLevelController : MonoBehaviour {
             if (child.gameObject.tag == "ChunkEnd"){
                 lastChunkEndPiece = child.gameObject;
                 break;
+            }
+        }
+    }
+
+    private void chunkSpawningControl(){
+        if (lastChunkEndPiece != null) {
+            if (lastChunkEndPiece.transform.position.z < 30) {
+                loadNextChunk();
+            }
+        }
+    }
+
+    private void penaltySlowDownControl(){
+        if (isPenaltySlowDown) {
+            if (worldSpeed < BaseWorldSpeed) {
+                worldSpeed += 10 * Time.deltaTime;
+            }
+            else {
+                worldSpeed = BaseWorldSpeed;
+                isPenaltySlowDown = false;
+            }
+        }
+    }
+
+    private void speedPowerUpControl(){
+        if (hasSpeedPowerUp) {
+            if (speedPowerUpTime < speedPowerUpLength) {
+                speedPowerUpTime += 1 * Time.deltaTime;
+            }
+            else {
+                if (worldSpeed > BaseWorldSpeed) {
+                    worldSpeed -= 10 * Time.deltaTime;
+                }
+                else {
+                    hasSpeedPowerUp = false;
+                    speedPowerUpTime = 0;
+                }
             }
         }
     }

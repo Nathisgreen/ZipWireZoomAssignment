@@ -3,9 +3,10 @@ using System.Collections;
 
 public class scCollectable : MonoBehaviour {
 
+    public GameObject particleSystemToPlay;
+
     private scLevelController levelController;
     private bool isHit = false;
-    public GameObject particleSystemToPlay;
 
 	void Start () {
         levelController = GameObject.FindGameObjectWithTag("LevelController").GetComponent<scLevelController>();
