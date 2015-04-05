@@ -21,7 +21,6 @@ public class scOceanSection : MonoBehaviour {
 
     private Mesh mesh;
 
-    // Update is called once per frame
     void Update() {
         if (transform.position.z + (depth * unitSize) < -5) {
             Destroy(this.gameObject);

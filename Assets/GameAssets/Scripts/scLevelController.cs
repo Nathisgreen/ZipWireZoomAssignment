@@ -13,14 +13,12 @@ public class scLevelController : MonoBehaviour {
     private int score = 0;
     private string scoreString = "Score: 0";
 
-	// Use this for initialization
 	void Start () {
         allChunks = Resources.LoadAll("LevelChunks", typeof(GameObject));
         loadNextChunk();
         addToScore(10);
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (lastChunkEndPiece != null){
             if (lastChunkEndPiece.transform.position.z < 30){

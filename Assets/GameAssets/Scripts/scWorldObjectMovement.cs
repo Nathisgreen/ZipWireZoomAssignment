@@ -9,12 +9,10 @@ public class scWorldObjectMovement : MonoBehaviour {
 
     private Vector3 workVector = new Vector3();
 
-	// Use this for initialization
 	void Start () {
         levelController = GameObject.FindWithTag("LevelController").GetComponent<scLevelController>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
         workVector = transform.position;
 

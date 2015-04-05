@@ -17,13 +17,11 @@ public class scOceanController : MonoBehaviour {
 
     private Vector3 workVector = new Vector3();
     
-	// Use this for initialization
 	void Start () {
         levelController = GameObject.FindGameObjectWithTag("LevelController").GetComponent<scLevelController>();
         createInitalOcean();
 	}
 	
-	// Update is called once per frame
 	void Update () {
         checkSpawnNextPiece();
 	}
