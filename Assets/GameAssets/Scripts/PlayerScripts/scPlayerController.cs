@@ -31,6 +31,5 @@ public class scPlayerController : MonoBehaviour {
         if (rigidbody.velocity.x < -MaxHorizontalVelocity) {
             rigidbody.velocity = new Vector3(-MaxHorizontalVelocity, rigidbody.velocity.y, rigidbody.velocity.z);
         }
-
 	}
 }

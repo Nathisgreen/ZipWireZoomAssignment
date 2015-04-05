@@ -6,17 +6,18 @@ public class scObstacle : MonoBehaviour {
     private scLevelController levelController;
     private bool isHit = false;
 
+    private scCameraShake cameraShake;
+
 	void Start () {
         levelController = GameObject.FindGameObjectWithTag("LevelController").GetComponent<scLevelController>();
-	}
-	
-	void Update () {
-	
+        cameraShake = Camera.main.GetComponent<scCameraShake>();
 	}
 
     void OnTriggerEnter( Collider other){
         if (other.collider.tag == "Player"){
             if (!isHit){
+
+                cameraShake.cameraShake(2, 1, 1);
 
                 float multiplier = 1;
 
@@ -24,7 +25,7 @@ public class scObstacle : MonoBehaviour {
                     multiplier = -1;
                 }
 
-                Vector3 force = new Vector3(multiplier* 20,0,0);
+                Vector3 force = new Vector3(multiplier* 5,0,0);
                 other.gameObject.rigidbody.AddForce(force, ForceMode.Impulse);
                 isHit = true;
             }
