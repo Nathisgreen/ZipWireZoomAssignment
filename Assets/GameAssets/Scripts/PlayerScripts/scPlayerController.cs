@@ -17,11 +17,11 @@ public class scPlayerController : MonoBehaviour {
             rigidbody.AddForce(rigidbody.transform.right * HorizontalMoveForce, ForceMode.Force);
         }
 
-        if (rigidbody.velocity.x > MaxHorizontalVelocity) {
+        if (rigidbody.velocity.x >= MaxHorizontalVelocity) {
             rigidbody.velocity = new Vector3(MaxHorizontalVelocity, rigidbody.velocity.y, rigidbody.velocity.z);
         }
 
-        if (rigidbody.velocity.x < -MaxHorizontalVelocity) {
+        if (rigidbody.velocity.x <= -MaxHorizontalVelocity) {
             rigidbody.velocity = new Vector3(-MaxHorizontalVelocity, rigidbody.velocity.y, rigidbody.velocity.z);
         }
 	}

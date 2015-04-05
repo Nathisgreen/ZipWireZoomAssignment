@@ -17,8 +17,8 @@ public class scLevelController : MonoBehaviour {
     private string scoreString = "Score: 0";
 
     private bool isPenaltySlowDown = false;
-
     private bool hasSpeedPowerUp = false;
+
     private float speedPowerUpTime = 0;
     private float speedPowerUpLength = 5;
 
