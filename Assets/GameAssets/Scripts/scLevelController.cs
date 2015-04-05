@@ -18,6 +18,10 @@ public class scLevelController : MonoBehaviour {
 
     private bool isPenaltySlowDown = false;
 
+    private bool hasSpeedPowerUp = false;
+    private float speedPowerUpTime = 0;
+    private float speedPowerUpLength = 5;
+
 	void Start () {
         worldSpeed = BaseWorldSpeed;
         allChunks = Resources.LoadAll("LevelChunks", typeof(GameObject));
@@ -40,6 +44,19 @@ public class scLevelController : MonoBehaviour {
                 isPenaltySlowDown = false;
             }
         }
+
+        if (hasSpeedPowerUp){
+            if (speedPowerUpTime < speedPowerUpLength){
+                speedPowerUpTime += 1 * Time.deltaTime;
+            }else{
+                if (worldSpeed > BaseWorldSpeed){
+                    worldSpeed -= 10 * Time.deltaTime;
+                }else{
+                    hasSpeedPowerUp = false;
+                    speedPowerUpTime = 0;
+                }
+            }
+        }
            
 	}
 
@@ -57,8 +74,16 @@ public class scLevelController : MonoBehaviour {
     }
 
     public void setPenaltyWorldSpeed(){
-        worldSpeed = 6;
-        isPenaltySlowDown = true;
+        if (!hasSpeedPowerUp){
+            worldSpeed = 6;
+            isPenaltySlowDown = true;
+        }
+    }
+
+    public void speedPowerUpCollected(){
+        hasSpeedPowerUp = true;
+        worldSpeed = BaseWorldSpeed * 2f;
+        speedPowerUpTime = 0;
     }
 
     private void loadNextChunk(){

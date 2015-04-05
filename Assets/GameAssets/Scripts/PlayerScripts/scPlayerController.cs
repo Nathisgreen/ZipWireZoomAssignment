@@ -6,7 +6,8 @@ public class scPlayerController : MonoBehaviour {
     private const float HorizontalInputDeadZone =1f;
     private const float HorizontalMoveForce = 50f;
     private const float MaxHorizontalVelocity = 5f;
-    
+
+    private float deadZone = 0.8f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,11 +17,12 @@ public class scPlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-        if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x <= HorizontalInputDeadZone) {
+
+        if (checkLeftInput() && transform.position.x <= HorizontalInputDeadZone) {
             rigidbody.AddForce(-rigidbody.transform.right * HorizontalMoveForce, ForceMode.Force);
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) && transform.position.x >= -HorizontalInputDeadZone) {
+        if (checkRightInput() && transform.position.x >= -HorizontalInputDeadZone) {
             rigidbody.AddForce(rigidbody.transform.right * HorizontalMoveForce, ForceMode.Force);
         }
 
@@ -32,4 +34,14 @@ public class scPlayerController : MonoBehaviour {
             rigidbody.velocity = new Vector3(-MaxHorizontalVelocity, rigidbody.velocity.y, rigidbody.velocity.z);
         }
 	}
+
+    private bool checkLeftInput(){
+        return Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || 
+            (Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width/2);
+    }
+
+    private bool checkRightInput() {
+        return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) ||
+            (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2); ;
+    }
 }

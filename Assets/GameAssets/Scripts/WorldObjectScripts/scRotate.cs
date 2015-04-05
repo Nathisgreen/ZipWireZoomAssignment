@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class scRotate : MonoBehaviour {
-
+    public float rotateSpeed = 45;
     private Vector3 workVector = new Vector3();
 
 	void Start () {
@@ -10,7 +10,7 @@ public class scRotate : MonoBehaviour {
 	}
 	
 	void Update () {
-        workVector.z = 45 * Time.deltaTime;
+        workVector.z = rotateSpeed * Time.deltaTime;
         transform.Rotate(workVector);
 	}
 }
