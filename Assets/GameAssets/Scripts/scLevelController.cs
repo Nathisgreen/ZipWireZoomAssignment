@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Text;
+
 public class scLevelController : MonoBehaviour {
 
     private const float BaseWorldSpeed = 15f;
@@ -57,7 +57,6 @@ public class scLevelController : MonoBehaviour {
                 }
             }
         }
-           
 	}
 
     public float getWorldSpeed() {
@@ -65,8 +64,9 @@ public class scLevelController : MonoBehaviour {
     }
 
     public void addToScore(int scoreToAdd){
-        score += scoreToAdd;
-        scoreString = "Score " +score.ToString();
+       score += scoreToAdd;
+
+       scoreString = "Score: " + score;
     }
 
     public string getScoreText(){

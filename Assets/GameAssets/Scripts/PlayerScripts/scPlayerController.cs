@@ -7,16 +7,7 @@ public class scPlayerController : MonoBehaviour {
     private const float HorizontalMoveForce = 50f;
     private const float MaxHorizontalVelocity = 5f;
 
-    private float deadZone = 0.8f;
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
 	void FixedUpdate () {
-
 
         if (checkLeftInput() && transform.position.x <= HorizontalInputDeadZone) {
             rigidbody.AddForce(-rigidbody.transform.right * HorizontalMoveForce, ForceMode.Force);
