@@ -53,7 +53,7 @@ public class scOceanSection : MonoBehaviour {
         /*Add the last row of verticies from the previous ocean section into this mesh
         so they can be connected together seamlessly*/
         if (previousSectionVerticies.Count > 0){
-            int numberOfVerticies = (depth * depth);
+            int numberOfVerticies = (depth * width);
             for (int i = numberOfVerticies-width; i < numberOfVerticies; i++){
 
                 workVector3 = (previousSectionVerticies[i] + previousSection.transform.position) - transform.position - frameShift;
@@ -106,19 +106,19 @@ public class scOceanSection : MonoBehaviour {
     private void constructTrianglesInMesh(){
         for (int depthIndex = 0; depthIndex < depth - 1; depthIndex++) {
             for (int widthIndex = 0; widthIndex < width - 1; widthIndex++) {
-                triangles.Add((depthIndex * depth) + widthIndex);
-                triangles.Add((depthIndex + 1) * depth + widthIndex);
-                triangles.Add((depthIndex * depth) + widthIndex + 1);
+                triangles.Add((depthIndex * width) + widthIndex);
+                triangles.Add((depthIndex + 1) * width + widthIndex);
+                triangles.Add((depthIndex * width) + widthIndex + 1);
 
-                triangles.Add(depthIndex * depth + (widthIndex + 1));
-                triangles.Add((depthIndex + 1) * depth + widthIndex);
-                triangles.Add((depthIndex + 1) * depth + (widthIndex + 1));
+                triangles.Add(depthIndex * width + (widthIndex + 1));
+                triangles.Add((depthIndex + 1) * width + widthIndex);
+                triangles.Add((depthIndex + 1) * width + (widthIndex + 1));
             }
         }
     }
 
     private void constructSeamTrianglesToPreviousOceanSection() {
-        int numberOfVerticies = depth * depth ;
+        int numberOfVerticies = depth * width ;
 
         for (int widthIndex = 0; widthIndex < width - 1; widthIndex++) {
             triangles.Add((numberOfVerticies) + widthIndex);

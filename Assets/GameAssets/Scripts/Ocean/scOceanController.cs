@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class scOceanController : MonoBehaviour {
 
     private const float UnitSize = 1.5f;
-    private const int OceanPieceWidth = 10;
+    private const int OceanPieceWidth = 15;
     private const int OceanPieceLength = 10;
     private const float OceanYPosition = -1;
 
