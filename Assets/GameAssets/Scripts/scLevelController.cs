@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class scLevelController : MonoBehaviour {
-    private float worldSpeed = 20f;
+    private float worldSpeed = 15f;
 
     private GameObject lastChunkEndPiece;
 

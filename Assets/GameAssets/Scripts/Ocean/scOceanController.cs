@@ -7,16 +7,15 @@ public class scOceanController : MonoBehaviour {
     private const float UnitSize = 1.5f;
     private const int OceanPieceWidth = 10;
     private const int OceanPieceLength = 10;
-
     private const float OceanYPosition = -1;
-
-    private Vector3 workVector = new Vector3();
 
     private GameObject lastCreatedOceanPiece;
     private Vector3 lastCreatedOceanPieceStartPosition;
     private float spawnDistance = 0;
 
     private scLevelController levelController;
+
+    private Vector3 workVector = new Vector3();
     
 	// Use this for initialization
 	void Start () {
@@ -41,22 +40,22 @@ public class scOceanController : MonoBehaviour {
         return OceanPieceLength;
     }
 
+    private void createInitalOcean() {
+        for (int i = 0; i < 3; i++) {
+
+            workVector.x = -(OceanPieceWidth * UnitSize) / 2;
+            workVector.y = OceanYPosition;
+            workVector.z = i * (OceanPieceLength * UnitSize);
+
+            createOceanPiece(workVector, 0);
+        }
+    }
+
     private void checkSpawnNextPiece(){
         if (lastCreatedOceanPiece != null){
             if (Vector3.Distance(lastCreatedOceanPieceStartPosition,lastCreatedOceanPiece.transform.position) > spawnDistance){
                 createOceanPiece(lastCreatedOceanPieceStartPosition - transform.position, levelController.getWorldSpeed());
             }
-        }
-    }
-
-    private void createInitalOcean(){
-        for (int i = 0; i < 3; i++){
-
-            workVector.x = -(OceanPieceWidth * UnitSize)/2;
-            workVector.y = OceanYPosition;
-            workVector.z = i * (OceanPieceLength * UnitSize);
-
-            createOceanPiece(workVector, 0);
         }
     }
 

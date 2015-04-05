@@ -15,7 +15,7 @@ public class scOceanSection : MonoBehaviour {
 
     private List<Color> allColors = new List<Color>();
 
-    //cache a vector to avoid constantly allocating new memory
+    //cache vectors to avoid constantly allocating new memory
     private Vector3 workVector3 = new Vector3();
     private Vector2 workVector2 = new Vector2();
 
@@ -46,22 +46,19 @@ public class scOceanSection : MonoBehaviour {
 
     public void buildMeshSection(List<Vector3> previousSectionVerticies, GameObject previousSection, float worldMoveSpeed) {
 
-        //calculate the amount a water piece moves in a frame to create the next piece at the correct position
-        //without a gap
+        /*calculate the amount an ocean piece moves in a frame to create the next piece at the correct position
+        without a gap*/
         Vector3 frameShift = new Vector3(0, 0, worldMoveSpeed * Time.deltaTime);
 
-        //Add the last row of verticies from the previous ocean section into this mesh
-        //so they can be connected together seamlessly
+        /*Add the last row of verticies from the previous ocean section into this mesh
+        so they can be connected together seamlessly*/
         if (previousSectionVerticies.Count > 0){
-            for (int i = (depth*depth)-width; i < (depth * depth) ; i++){
+            int numberOfVerticies = (depth * depth);
+            for (int i = numberOfVerticies-width; i < numberOfVerticies; i++){
 
                 workVector3 = (previousSectionVerticies[i] + previousSection.transform.position) - transform.position - frameShift;
 
-                GameObject oceanPoint = (GameObject)GameObject.Instantiate(Resources.Load("OceanPoint"));
-                oceanPoint.transform.position = workVector3;
-
-                oceanPoint.transform.parent = this.transform;
-                vertices.Add(oceanPoint.transform.position);
+                vertices.Add(workVector3);
 
                 colors.Add(allColors[Random.Range(0, allColors.Count)]);
                 uv.Add(workVector2);
@@ -78,29 +75,24 @@ public class scOceanSection : MonoBehaviour {
     }
 
     private void createPoints(){
-        for (int d = 0; d < depth; d++){
-            for (int w = 0; w < width; w++){
-                GameObject oceanPoint = (GameObject)GameObject.Instantiate(Resources.Load("OceanPoint"));
+        for (int depthIndex = 0; depthIndex < depth; depthIndex++) {
+            for (int widthIndex = 0; widthIndex < width; widthIndex++) {
 
-                oceanPoint.transform.parent = this.transform;
-
-                workVector3.x = transform.position.x + (w * unitSize);
+                workVector3.x = transform.position.x + (widthIndex * unitSize);
                 workVector3.y = transform.position.y + Random.Range(0,50)/100f;
-                workVector3.z = transform.position.z + (d * unitSize);
+                workVector3.z = transform.position.z + (depthIndex * unitSize);
 
-                oceanPoint.transform.position = workVector3;
-
-                vertices.Add(oceanPoint.transform.position - oceanPoint.transform.parent.position);
+                vertices.Add(workVector3 - transform.position);
                 uv.Add(workVector2);
                 colors.Add(allColors[Random.Range(0, allColors.Count)]);
             }
         }
     }
 
-    private void constructMesh(bool connectToPrevious) {
-        constructTriangles();
+    private void constructMesh(bool connectToPreviousOceanSection) {
+        constructTrianglesInMesh();
 
-        if (connectToPrevious){
+        if (connectToPreviousOceanSection) {
             constructSeamTrianglesToPreviousOceanSection();
         }
 
@@ -113,31 +105,31 @@ public class scOceanSection : MonoBehaviour {
         mesh.RecalculateNormals();
     }
 
-    private void constructTriangles(){
-        for (int d = 0; d < depth - 1; d++) {
-            for (int w = 0; w < width - 1; w++) {
-                triangles.Add((d * depth) + w);
-                triangles.Add((d + 1) * depth + w);
-                triangles.Add((d * depth) + w + 1);
+    private void constructTrianglesInMesh(){
+        for (int depthIndex = 0; depthIndex < depth - 1; depthIndex++) {
+            for (int widthIndex = 0; widthIndex < width - 1; widthIndex++) {
+                triangles.Add((depthIndex * depth) + widthIndex);
+                triangles.Add((depthIndex + 1) * depth + widthIndex);
+                triangles.Add((depthIndex * depth) + widthIndex + 1);
 
-                triangles.Add(d * depth + (w + 1));
-                triangles.Add((d + 1) * depth + w);
-                triangles.Add((d + 1) * depth + (w + 1));
+                triangles.Add(depthIndex * depth + (widthIndex + 1));
+                triangles.Add((depthIndex + 1) * depth + widthIndex);
+                triangles.Add((depthIndex + 1) * depth + (widthIndex + 1));
             }
         }
     }
 
     private void constructSeamTrianglesToPreviousOceanSection() {
-        int d = depth ;
+        int numberOfVerticies = depth * depth ;
 
-        for (int w = 0; w < width - 1; w++) {
-            triangles.Add((d*d) + w);
-            triangles.Add(w);
-            triangles.Add((d* d) + w +1);
+        for (int widthIndex = 0; widthIndex < width - 1; widthIndex++) {
+            triangles.Add((numberOfVerticies) + widthIndex);
+            triangles.Add(widthIndex);
+            triangles.Add((numberOfVerticies) + widthIndex + 1);
 
-            triangles.Add((d * d) + w + 1);
-            triangles.Add(w);
-            triangles.Add(w+1);
+            triangles.Add((numberOfVerticies) + widthIndex + 1);
+            triangles.Add(widthIndex);
+            triangles.Add(widthIndex + 1);
         }
     }
 }
