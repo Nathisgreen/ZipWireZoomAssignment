@@ -38,7 +38,7 @@ public class scOceanSection : MonoBehaviour {
 
         allColors.Add(new Color(22 / 255f, 171 / 255f, 200 / 255f));
         allColors.Add(new Color(22 / 255f, 189 / 255f, 224 / 255f));
-        allColors.Add(new Color(15 / 255f, 129 / 255f, 149 / 255f));
+        allColors.Add(new Color(18 / 255f, 159 / 255f, 184 / 255f));
 
         createMeshVerticies();
     }
@@ -75,8 +75,8 @@ public class scOceanSection : MonoBehaviour {
         for (int depthIndex = 0; depthIndex < depth; depthIndex++) {
             for (int widthIndex = 0; widthIndex < width; widthIndex++) {
 
-                workVector3.x = transform.position.x + (widthIndex * unitSize);
-                workVector3.y = transform.position.y + Random.Range(0,50)/100f;
+                workVector3.x = transform.position.x + (widthIndex * unitSize) + (Mathf.Sin(depthIndex) / 4) + Random.Range(0, 20) / 100f;
+                workVector3.y = transform.position.y + (Mathf.Sin(depthIndex)/3) + (Mathf.Sin(widthIndex + depthIndex)/3) + (Random.Range(0, 20)/100f);
                 workVector3.z = transform.position.z + (depthIndex * unitSize);
 
                 vertices.Add(workVector3 - transform.position);
@@ -100,6 +100,8 @@ public class scOceanSection : MonoBehaviour {
         mesh.colors = colors.ToArray();
         mesh.Optimize();
         mesh.RecalculateNormals();
+
+        rebuildMeshWithUniqueVerticies();
     }
 
     private void constructTrianglesInMesh(){
@@ -128,5 +130,30 @@ public class scOceanSection : MonoBehaviour {
             triangles.Add(widthIndex);
             triangles.Add(widthIndex + 1);
         }
+    }
+
+    private void rebuildMeshWithUniqueVerticies() {
+        Vector3[] lVerticies = mesh.vertices;
+        int[] triangles = mesh.triangles;
+
+        Vector3[] newVerticies = new Vector3[triangles.Length];
+
+        for (int i = 0; i < triangles.Length; i++) {
+            newVerticies[i] = lVerticies[triangles[i]];
+            triangles[i] = i;
+        }
+
+        Color[] newColors = new Color[newVerticies.Length];
+        for (int j = 0; j < newColors.Length; j += 3) {
+            int colorIndex = Random.Range(0, allColors.Count);
+            for (int k = 0; k < 3; k++) {
+                newColors[j + k] = allColors[colorIndex];
+            }
+        }
+
+        mesh.vertices = newVerticies;
+        mesh.triangles = triangles;
+        mesh.colors = newColors;
+        mesh.RecalculateNormals();
     }
 }
